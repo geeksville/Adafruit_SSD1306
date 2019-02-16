@@ -33,7 +33,7 @@
 // AND HEIGHT ARGUMENTS).
 
 #if defined(ARDUINO_STM32_FEATHER)
-  typedef class HardwareSPI SPIClass;
+typedef class HardwareSPI SPIClass;
 #endif
 
 #include <Wire.h>
@@ -41,16 +41,16 @@
 #include <Adafruit_GFX.h>
 
 #if defined(__AVR__)
-  typedef volatile uint8_t  PortReg;
-  typedef uint8_t           PortMask;
+typedef volatile uint8_t PortReg;
+typedef uint8_t PortMask;
   #define HAVE_PORTREG
 #elif defined(__SAM3X8E__)
-  typedef volatile RwReg    PortReg;
-  typedef uint32_t          PortMask;
+typedef volatile RwReg PortReg;
+typedef uint32_t PortMask;
   #define HAVE_PORTREG
 #elif defined(__arm__) || defined(ARDUINO_FEATHER52)
-  typedef volatile uint32_t PortReg;
-  typedef uint32_t          PortMask;
+typedef volatile uint32_t PortReg;
+typedef uint32_t PortMask;
   #define HAVE_PORTREG
 #endif
 
@@ -108,71 +108,73 @@
  #define SSD1306_LCDHEIGHT  16 ///< DEPRECATED: height w/SSD1306_96_16 defined
 #endif
 
-/*! 
+/*!
     @brief  Class that stores state and functions for interacting with
             SSD1306 OLED displays.
-*/
-class Adafruit_SSD1306 : public Adafruit_GFX {
- public:
-  // NEW CONSTRUCTORS -- recommended for new projects
-  Adafruit_SSD1306(uint8_t w, uint8_t h, TwoWire *twi=&Wire, int8_t rst_pin=-1,
-    uint32_t clkDuring=400000UL, uint32_t clkAfter=100000UL);
-  Adafruit_SSD1306(uint8_t w, uint8_t h, int8_t mosi_pin, int8_t sclk_pin,
-    int8_t dc_pin, int8_t rst_pin, int8_t cs_pin);
-  Adafruit_SSD1306(uint8_t w, uint8_t h, SPIClass *spi,
-    int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL);
+ */
+class Adafruit_SSD1306: public Adafruit_GFX {
+public:
+    // NEW CONSTRUCTORS -- recommended for new projects
+    Adafruit_SSD1306(uint8_t w, uint8_t h, TwoWire *twi=&Wire, int8_t rst_pin=-1,
+                     uint32_t clkDuring=400000UL, uint32_t clkAfter=100000UL);
+    Adafruit_SSD1306(uint8_t w, uint8_t h, int8_t mosi_pin, int8_t sclk_pin,
+                     int8_t dc_pin, int8_t rst_pin, int8_t cs_pin);
+    Adafruit_SSD1306(uint8_t w, uint8_t h, SPIClass *spi,
+                     int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL);
 
-  // DEPRECATED CONSTRUCTORS - for back compatibility, avoid in new projects
-  Adafruit_SSD1306(int8_t mosi_pin, int8_t sclk_pin, int8_t dc_pin,
-    int8_t rst_pin, int8_t cs_pin);
-  Adafruit_SSD1306(int8_t dc_pin, int8_t rst_pin, int8_t cs_pin);
-  Adafruit_SSD1306(int8_t rst_pin = -1);
+    // DEPRECATED CONSTRUCTORS - for back compatibility, avoid in new projects
+    Adafruit_SSD1306(int8_t mosi_pin, int8_t sclk_pin, int8_t dc_pin,
+                     int8_t rst_pin, int8_t cs_pin);
+    Adafruit_SSD1306(int8_t dc_pin, int8_t rst_pin, int8_t cs_pin);
+    Adafruit_SSD1306(int8_t rst_pin = -1);
 
-  ~Adafruit_SSD1306(void);
+    ~Adafruit_SSD1306(void);
 
-  boolean      begin(uint8_t switchvcc=SSD1306_SWITCHCAPVCC,
-                 uint8_t i2caddr=0, boolean reset=true,
-                 boolean periphBegin=true);
-  void         display(void);
-  void         clearDisplay(void);
-  void         invertDisplay(boolean i);
-  void         dim(boolean dim);
-  void         drawPixel(int16_t x, int16_t y, uint16_t color);
-  virtual void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-  virtual void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
-  void         startscrollright(uint8_t start, uint8_t stop);
-  void         startscrollleft(uint8_t start, uint8_t stop);
-  void         startscrolldiagright(uint8_t start, uint8_t stop);
-  void         startscrolldiagleft(uint8_t start, uint8_t stop);
-  void         stopscroll(void);
-  void         ssd1306_command(uint8_t c);
-  boolean      getPixel(int16_t x, int16_t y);
-  uint8_t     *getBuffer(void);
+    boolean      begin(uint8_t switchvcc=SSD1306_SWITCHCAPVCC,
+                       uint8_t i2caddr=0, boolean reset=true,
+                       boolean periphBegin=true);
+    void         display(void);
+    void         clearDisplay(void);
+    void         invertDisplay(boolean i);
+    void         dim(boolean dim);
+    void         drawPixel(int16_t x, int16_t y, uint16_t color);
+    virtual void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
+    virtual void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
+    void         startscrollright(uint8_t start, uint8_t stop);
+    void         startscrollleft(uint8_t start, uint8_t stop);
+    void         startscrolldiagright(uint8_t start, uint8_t stop);
+    void         startscrolldiagleft(uint8_t start, uint8_t stop);
+    void         stopscroll(void);
+    void         ssd1306_command(uint8_t c);
+    boolean      getPixel(int16_t x, int16_t y);
+    uint8_t     *getBuffer(void);
 
- private:
-  inline void  SPIwrite(uint8_t d) __attribute__((always_inline));
-  void         drawFastHLineInternal(int16_t x, int16_t y, int16_t w,
-                 uint16_t color);
-  void         drawFastVLineInternal(int16_t x, int16_t y, int16_t h,
-                 uint16_t color);
-  void         ssd1306_command1(uint8_t c);
-  void         ssd1306_commandList(const uint8_t *c, uint8_t n);
+    // kevinh make public
+    void         ssd1306_command1(uint8_t c);
+    void         ssd1306_commandList(const uint8_t *c, uint8_t n);
 
-  SPIClass    *spi;
-  TwoWire     *wire;
-  uint8_t     *buffer;
-  int8_t       i2caddr, vccstate, page_end;
-  int8_t       mosiPin    ,  clkPin    ,  dcPin    ,  csPin, rstPin;
+private:
+    inline void  SPIwrite(uint8_t d) __attribute__((always_inline));
+    void         drawFastHLineInternal(int16_t x, int16_t y, int16_t w,
+                                       uint16_t color);
+    void         drawFastVLineInternal(int16_t x, int16_t y, int16_t h,
+                                       uint16_t color);
+
+    SPIClass    *spi;
+    TwoWire     *wire;
+    uint8_t     *buffer;
+    int8_t i2caddr, vccstate, page_end;
+    int8_t mosiPin,  clkPin,  dcPin,  csPin, rstPin;
 #ifdef HAVE_PORTREG
-  PortReg     *mosiPort   , *clkPort   , *dcPort   , *csPort;
-  PortMask     mosiPinMask,  clkPinMask,  dcPinMask,  csPinMask;
+    PortReg     *mosiPort, *clkPort, *dcPort, *csPort;
+    PortMask mosiPinMask,  clkPinMask,  dcPinMask,  csPinMask;
 #endif
 #if defined(SPI_HAS_TRANSACTION)
-  SPISettings  spiSettings;
+    SPISettings spiSettings;
 #endif
 #if ARDUINO >= 157
-  uint32_t     wireClk;    // Wire speed for SSD1306 transfers
-  uint32_t     restoreClk; // Wire speed following SSD1306 transfers
+    uint32_t wireClk;      // Wire speed for SSD1306 transfers
+    uint32_t restoreClk;   // Wire speed following SSD1306 transfers
 #endif
 };
 
